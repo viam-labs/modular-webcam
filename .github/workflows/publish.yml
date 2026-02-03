@@ -1,0 +1,39 @@
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    name: Build and Upload module (linux, darwin)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build and Publish
+        uses: viamrobotics/build-action@v1.4
+        with:
+          version: ${{ github.event.release.tag_name }}
+          ref: ${{ github.sha }}
+          key-id: ${{ secrets.viam_dev_api_key_id }}
+          key-value: ${{ secrets.viam_dev_api_key }}
+          token: ${{ github.token }}
+
+  publish-windows:
+    name: Build and Upload module (windows)
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Windows module
+        uses: ./.github/actions/build-windows
+
+      - name: Upload module to registry
+        uses: viamrobotics/upload-module@v1
+        with:
+          meta-path: meta.json
+          module-path: module.tar.gz
+          platform: windows/amd64
+          version: ${{ github.event.release.tag_name }}
+          key-id: ${{ secrets.viam_dev_api_key_id }}
+          key-value: ${{ secrets.viam_dev_api_key }}
