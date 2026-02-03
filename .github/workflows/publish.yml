@@ -15,8 +15,8 @@ jobs:
         with:
           version: ${{ github.event.release.tag_name }}
           ref: ${{ github.sha }}
-          key-id: ${{ secrets.viam_dev_api_key_id }}
-          key-value: ${{ secrets.viam_dev_api_key }}
+          key-id: ${{ secrets.viam_labs_api_key_id }}
+          key-value: ${{ secrets.viam_labs_api_key }}
           token: ${{ github.token }}
 
   publish-windows:
@@ -35,5 +35,5 @@ jobs:
           module-path: module.tar.gz
           platform: windows/amd64
           version: ${{ github.event.release.tag_name }}
-          key-id: ${{ secrets.viam_dev_api_key_id }}
-          key-value: ${{ secrets.viam_dev_api_key }}
+          key-id: ${{ secrets.viam_labs_api_key_id }}
+          key-value: ${{ secrets.viam_labs_api_key }}

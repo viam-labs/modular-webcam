@@ -1,4 +1,4 @@
-package models
+package modularwebcam
 
 import (
 	"go.viam.com/rdk/components/camera"

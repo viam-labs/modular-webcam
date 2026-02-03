@@ -20,8 +20,8 @@ jobs:
         with:
           version: ""
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          key-id: ${{ secrets.VIAM_DEV_API_KEY_ID }}
-          key-value: ${{ secrets.VIAM_DEV_API_KEY }}
+          key-id: ${{ secrets.viam_labs_api_key_id }}
+          key-value: ${{ secrets.viam_labs_api_key }}
 
   build-windows:
     runs-on: windows-2025

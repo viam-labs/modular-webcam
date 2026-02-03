@@ -4,7 +4,7 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/viam-labs/modular-webcam/models"
+	"github.com/viam-labs/modular-webcam/modularwebcam"
 
 	mdcam "github.com/pion/mediadevices/pkg/driver/camera"
 	"go.viam.com/rdk/components/camera"
@@ -25,6 +25,6 @@ func main() {
 	}
 
 	module.ModularMain(
-		resource.APIModel{API: camera.API, Model: models.Webcam},
+		resource.APIModel{API: camera.API, Model: modularwebcam.Webcam},
 	)
 }
