@@ -3,8 +3,8 @@ module github.com/viam-labs/modular-webcam
 go 1.25.1
 
 require (
-	github.com/pion/mediadevices v0.9.0
-	go.viam.com/rdk v0.111.0
+	github.com/pion/mediadevices v0.9.2
+	go.viam.com/rdk v0.112.0
 	go.viam.com/test v1.2.4
 )
 
@@ -182,7 +182,7 @@ require (
 	go.uber.org/goleak v1.3.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
-	go.viam.com/api v0.1.511 // indirect
+	go.viam.com/api v0.1.519 // indirect
 	go.viam.com/utils v0.4.3 // indirect
 	go4.org/unsafe/assume-no-moving-gc v0.0.0-20230525183740-e7c30c78aeb2 // indirect
 	golang.org/x/crypto v0.45.0 // indirect
@@ -212,9 +212,3 @@ require (
 	gorgonia.org/vecf64 v0.9.0 // indirect
 	nhooyr.io/websocket v1.8.7 // indirect
 )
-
-// Temporary forks for Windows webcam path fixes
-// TODO(RSDK-13324): Remove once fixes are merged to official RDK
-replace github.com/pion/mediadevices => github.com/hexbabe/sean-mediadevices v0.0.4-rc0
-
-replace go.viam.com/rdk => github.com/hexbabe/sean-rdk v0.111.0-fix-windows-webcam-path-rc1
