@@ -4,7 +4,7 @@ go 1.25.1
 
 require (
 	github.com/pion/mediadevices v0.9.2
-	go.viam.com/rdk v0.112.0
+	go.viam.com/rdk v0.113.0-rc0
 	go.viam.com/test v1.2.4
 )
 
@@ -212,5 +212,3 @@ require (
 	gorgonia.org/vecf64 v0.9.0 // indirect
 	nhooyr.io/websocket v1.8.7 // indirect
 )
-
-replace go.viam.com/rdk => github.com/hexbabe/sean-rdk v0.111.0-fix-windows-webcam-path-rc1
