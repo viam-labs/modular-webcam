@@ -433,8 +433,6 @@ github.com/hashicorp/logutils v1.0.0/go.mod h1:QIAnNjmIWmVIIkWDTG1z5v++HQmx9WQRO
 github.com/hashicorp/mdns v1.0.0/go.mod h1:tL+uN++7HEJ6SQLQ2/p+z2pH24WQKWjBPkE0mNTz8vQ=
 github.com/hashicorp/memberlist v0.1.3/go.mod h1:ajVTdAv/9Im8oMAAj5G31PhhMCZJV2pPBoIllUwCN7I=
 github.com/hashicorp/serf v0.8.2/go.mod h1:6hOLApaqBFA1NXqRQAsxw9QxuDEvNxSQRwA/JwenrHc=
-github.com/hexbabe/sean-rdk v0.111.0-fix-windows-webcam-path-rc1 h1:RYBMFN0srA0Yuy8HlOLs2hoY6ZK/wgDchBfT02739Dg=
-github.com/hexbabe/sean-rdk v0.111.0-fix-windows-webcam-path-rc1/go.mod h1:9wyUGyZkuEquAf1r1VUp/PQEdQvGpT6NzCRz6xvRs1g=
 github.com/hpcloud/tail v1.0.0/go.mod h1:ab1qPbhIpdTxEkNHXyeSf5vhxWSCs/tWer42PpOxQnU=
 github.com/hudl/fargo v1.3.0/go.mod h1:y3CKSmjA+wD2gak7sUSXTAoopbhU08POFhmITJgmKTg=
 github.com/ianlancetaylor/demangle v0.0.0-20181102032728-5e5cf60278f6/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
@@ -868,6 +866,8 @@ go.uber.org/zap v1.27.0 h1:aJMhYGrd5QSmlpLMr2MftRKl7t8J8PTZPA732ud/XR8=
 go.uber.org/zap v1.27.0/go.mod h1:GB2qFLM7cTU87MWRP2mPIjqfIDnGu+VIO4V/SdhGo2E=
 go.viam.com/api v0.1.519 h1:yn3J9rdAq7nMIQ5m92vWVgpLRrX6dzWbIjO3Wsy5a3Y=
 go.viam.com/api v0.1.519/go.mod h1:qSrz3j4+QlXvw7ANs1G2fsX532vUQzLBbgaTxMu3lAw=
+go.viam.com/rdk v0.113.0-rc0 h1:zRwBLRrXPxIkoo7zXh63uEfB/oI2YOkG/ZslFUg0tZw=
+go.viam.com/rdk v0.113.0-rc0/go.mod h1:2vYcre/HU6ywaWeFcW8x/AVhXWwOXIv3lJqKxfXv5aA=
 go.viam.com/test v1.2.4 h1:JYgZhsuGAQ8sL9jWkziAXN9VJJiKbjoi9BsO33TW3ug=
 go.viam.com/test v1.2.4/go.mod h1:zI2xzosHdqXAJ/kFqcN+OIF78kQuTV2nIhGZ8EzvaJI=
 go.viam.com/utils v0.4.3 h1:jhx78k4MpVpg2kueBE/1L+ZRfsUs1FsUynYCQe6NV6Q=
