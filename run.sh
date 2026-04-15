@@ -56,18 +56,32 @@ for arg in "$@"; do
     PROG_ARGS="${PROG_ARGS}"$'\n'"        <string>$(xml_escape "$arg")</string>"
 done
 
-# Pass through VIAM_* env vars, skipping the ones that point to /var/root/.viam
-# (VIAM_HOME, VIAM_MODULE_ROOT, VIAM_MODULE_DATA) which are inaccessible to the
-# console user.
+# VIAM_HOME, VIAM_MODULE_ROOT, and VIAM_MODULE_DATA are under /var/root/.viam
+# (drwx------). Grant the console user just enough access to traverse and read
+# each path. run.sh runs as root here so the chmod calls succeed.
+if [ -n "$VIAM_HOME" ]; then
+    chmod o+x "$VIAM_HOME" 2>/dev/null || true
+fi
+if [ -n "$VIAM_MODULE_ROOT" ]; then
+    # chmod each directory in the chain from VIAM_HOME down to VIAM_MODULE_ROOT
+    path="$VIAM_MODULE_ROOT"
+    while [[ "$path" != "/" && "$path" != "$VIAM_HOME" ]]; do
+        chmod o+x "$path" 2>/dev/null || true
+        path="$(dirname "$path")"
+    done
+    chmod o+rx "$VIAM_MODULE_ROOT" 2>/dev/null || true
+fi
+if [ -n "$VIAM_MODULE_DATA" ]; then
+    mkdir -p "$VIAM_MODULE_DATA"
+    chown -R "$CONSOLE_USER" "$VIAM_MODULE_DATA"
+fi
+
+# Pass through all VIAM_* env vars
 ENV_DICT=""
 while IFS= read -r line; do
     key="${line%%=*}"
     val="${line#*=}"
-    case "$key" in
-        VIAM_HOME|VIAM_MODULE_ROOT|VIAM_MODULE_DATA) continue ;;
-        VIAM_*) ;;
-        *) continue ;;
-    esac
+    [[ "$key" == VIAM_* ]] || continue
     ENV_DICT="${ENV_DICT}"$'\n'"        <key>$(xml_escape "$key")</key>"$'\n'"        <string>$(xml_escape "$val")</string>"
 done < <(env)
 
