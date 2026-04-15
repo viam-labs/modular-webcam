@@ -28,7 +28,7 @@ build: format
 module.tar.gz: build
 	rm -f module.tar.gz
 	cp $(BIN_OUTPUT_PATH)/$(MODULE_BINARY) $(MODULE_BINARY)
-	tar czf module.tar.gz $(MODULE_BINARY) meta.json
+	tar czf module.tar.gz $(MODULE_BINARY) meta.json run.sh
 	rm $(MODULE_BINARY)
 
 setup:
