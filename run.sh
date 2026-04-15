@@ -56,6 +56,21 @@ for arg in "$@"; do
     PROG_ARGS="${PROG_ARGS}"$'\n'"        <string>$(xml_escape "$arg")</string>"
 done
 
+# Pass through VIAM_* env vars, skipping the ones that point to /var/root/.viam
+# (VIAM_HOME, VIAM_MODULE_ROOT, VIAM_MODULE_DATA) which are inaccessible to the
+# console user.
+ENV_DICT=""
+while IFS= read -r line; do
+    key="${line%%=*}"
+    val="${line#*=}"
+    case "$key" in
+        VIAM_HOME|VIAM_MODULE_ROOT|VIAM_MODULE_DATA) continue ;;
+        VIAM_*) ;;
+        *) continue ;;
+    esac
+    ENV_DICT="${ENV_DICT}"$'\n'"        <key>$(xml_escape "$key")</key>"$'\n'"        <string>$(xml_escape "$val")</string>"
+done < <(env)
+
 cat > "$PLIST_PATH" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -67,6 +82,10 @@ cat > "$PLIST_PATH" <<PLIST
     <array>
 ${PROG_ARGS}
     </array>
+    <key>EnvironmentVariables</key>
+    <dict>
+${ENV_DICT}
+    </dict>
 </dict>
 </plist>
 PLIST
@@ -82,6 +101,20 @@ BOOTSTRAP_OUT=$(sudo -u "$CONSOLE_USER" launchctl bootstrap "$DOMAIN" "$PLIST_PA
 BOOTSTRAP_RC=$?
 echo "run.sh: bootstrap exit=$BOOTSTRAP_RC output=$BOOTSTRAP_OUT"
 
+
+cleanup() {
+    echo "run.sh: cleaning up agent $LABEL"
+    sudo -u "$CONSOLE_USER" launchctl bootout "$DOMAIN"/"$LABEL" 2>/dev/null || true
+    rm -f "$PLIST_PATH"
+}
+
+handle_term() {
+    echo "run.sh: received SIGTERM"
+    cleanup
+    exit 0
+}
+
+trap handle_term TERM INT
 
 # Kickstart the agent in the user's session
 echo "run.sh: starting agent $LABEL as $CONSOLE_USER"
@@ -114,3 +147,4 @@ done
 FINAL_STATE=$(launchctl print "$DOMAIN"/"$LABEL" 2>&1)
 echo "run.sh: agent has stopped — final launchctl state:"
 echo "$FINAL_STATE"
+cleanup
