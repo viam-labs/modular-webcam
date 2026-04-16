@@ -140,7 +140,7 @@ echo "run.sh: kickstart exit=$KICKSTART_RC output=$KICKSTART_OUT"
 echo "run.sh: waiting for agent to start..."
 AGENT_PID=""
 for i in $(seq 1 30); do
-    AGENT_PID=$(launchctl print "$DOMAIN"/"$LABEL" 2>/dev/null | awk '/pid =/ {gsub(/[^0-9]/,""); print $3}')
+    AGENT_PID=$(launchctl print "$DOMAIN"/"$LABEL" 2>/dev/null | awk '/^\tpid = / {print $3}')
     if [ -n "$AGENT_PID" ]; then
         echo "run.sh: agent is running (pid=$AGENT_PID)"
         break
