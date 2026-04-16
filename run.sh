@@ -11,25 +11,15 @@ echo "run.sh: running as $(whoami) (uid=$(id -u))"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODULE_BIN="$SCRIPT_DIR/modular-webcam"
 
-if [ "$(uname)" = "Darwin" ] && [ "$(id -u)" -eq 0 ]; then
-    # Walk up the process tree to detect if any ancestor is launchd (PID 1).
-    # viam-agent launches viam-server, so the chain may be several levels deep:
-    # launchd (1) → viam-agent → viam-server → run.sh
-    ANCESTOR_PID="$PPID"
-    LAUNCHED_BY_LAUNCHD=0
-    while [ "$ANCESTOR_PID" -gt 1 ] 2>/dev/null; do
-        ANCESTOR_PID=$(ps -p "$ANCESTOR_PID" -o ppid= 2>/dev/null | tr -d ' ')
-        if [ "$ANCESTOR_PID" -eq 1 ] 2>/dev/null; then
-            LAUNCHED_BY_LAUNCHD=1
-            break
-        fi
-    done
-    if [ "$LAUNCHED_BY_LAUNCHD" -eq 1 ]; then
-        echo "run.sh: detected launchd daemon context, delegating to run_darwin_tcc.sh"
-        exec "$SCRIPT_DIR/run_darwin_tcc.sh" "$MODULE_BIN" "$@"
-    else
-        echo "run.sh: no launchd daemon context detected, executing binary directly"
-    fi
+# On macOS, when running as root without SUDO_USER, we're in a launchd daemon context
+# (viam-server launched by launchd). A manual `sudo` invocation sets SUDO_USER, which
+# distinguishes it from launchd. In the daemon context, TCC denies camera access to
+# root, so we delegate to run_darwin_tcc.sh to re-launch under the console user's GUI session.
+if [ "$(uname)" = "Darwin" ] && [ "$(id -u)" -eq 0 ] && [ -z "$SUDO_USER" ]; then
+    echo "run.sh: detected launchd daemon context, delegating to run_darwin_tcc.sh"
+    exec "$SCRIPT_DIR/run_darwin_tcc.sh" "$MODULE_BIN" "$@"
+elif [ "$(uname)" = "Darwin" ]; then
+    echo "run.sh: darwin but not in launchd context, executing binary directly"
 fi
 
 exec "$MODULE_BIN" "$@"
