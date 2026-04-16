@@ -27,6 +27,8 @@ if [ "$(uname)" = "Darwin" ] && [ "$(id -u)" -eq 0 ]; then
     if [ "$LAUNCHED_BY_LAUNCHD" -eq 1 ]; then
         echo "run.sh: detected launchd daemon context, delegating to run_darwin_tcc.sh"
         exec "$SCRIPT_DIR/run_darwin_tcc.sh" "$MODULE_BIN" "$@"
+    else
+        echo "run.sh: no launchd daemon context detected, executing binary directly"
     fi
 fi
 
