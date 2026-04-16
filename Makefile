@@ -28,7 +28,7 @@ build: format
 module.tar.gz: build
 	rm -f module.tar.gz
 	cp $(BIN_OUTPUT_PATH)/$(MODULE_BINARY) $(MODULE_BINARY)
-	tar czf module.tar.gz $(MODULE_BINARY) meta.json run.sh
+	tar czf module.tar.gz $(MODULE_BINARY) meta.json run.sh run_darwin_tcc.sh
 	rm $(MODULE_BINARY)
 
 setup:
