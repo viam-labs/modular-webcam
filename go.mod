@@ -3,7 +3,7 @@ module github.com/viam-labs/modular-webcam
 go 1.25.1
 
 require (
-	github.com/pion/mediadevices v0.9.2
+	github.com/pion/mediadevices v0.10.0
 	go.viam.com/rdk v0.118.0
 	go.viam.com/test v1.2.4
 )
@@ -214,5 +214,3 @@ require (
 	gorgonia.org/vecf64 v0.9.0 // indirect
 	nhooyr.io/websocket v1.8.7 // indirect
 )
-
-replace github.com/pion/mediadevices => github.com/hexbabe/sean-mediadevices v0.0.13
