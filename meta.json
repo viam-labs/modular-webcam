@@ -12,8 +12,7 @@
       "short_description": "Modular webcam camera component that imports RDK's webcam implementation"
     }
   ],
-  "entrypoint": "modular-webcam",
-  "first_run": "",
+  "entrypoint": "run.sh",
   "build": {
     "build": "make module.tar.gz",
     "setup": "make setup",
