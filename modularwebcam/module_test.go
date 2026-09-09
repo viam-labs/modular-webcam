@@ -19,18 +19,18 @@ func TestWebcamRegistration(t *testing.T) {
 // touching the global mediadevices driver registry.
 type fakeDriver struct{ label string }
 
-func (f fakeDriver) Open() error               { return nil }
-func (f fakeDriver) Close() error              { return nil }
-func (f fakeDriver) Properties() []prop.Media  { return nil }
-func (f fakeDriver) ID() string                { return f.label }
-func (f fakeDriver) Info() driver.Info         { return driver.Info{Label: f.label} }
-func (f fakeDriver) Status() driver.State      { return driver.StateClosed }
+func (f fakeDriver) Open() error              { return nil }
+func (f fakeDriver) Close() error             { return nil }
+func (f fakeDriver) Properties() []prop.Media { return nil }
+func (f fakeDriver) ID() string               { return f.label }
+func (f fakeDriver) Info() driver.Info        { return driver.Info{Label: f.label} }
+func (f fakeDriver) Status() driver.State     { return driver.StateClosed }
 
 func TestMatchDeviceID(t *testing.T) {
 	drivers := []driver.Driver{
-		fakeDriver{label: "video0;video0"},        // Linux: device_id == video_path
-		fakeDriver{label: "deviceA;/dev/video2"},  // Linux: device_id distinct from path
-		fakeDriver{label: "0x8020000005ac8514"},   // mac/Windows: no separator
+		fakeDriver{label: "video0;video0"},       // Linux: device_id == video_path
+		fakeDriver{label: "deviceA;/dev/video2"}, // Linux: device_id distinct from path
+		fakeDriver{label: "0x8020000005ac8514"},  // mac/Windows: no separator
 	}
 
 	for _, tc := range []struct {
