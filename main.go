@@ -21,7 +21,7 @@ func main() {
 			logger.Errorw("failed to start camera observer", "error", err)
 			os.Exit(1)
 		}
-		defer mdcam.DestroyObserver()
+		defer func() { _ = mdcam.DestroyObserver() }()
 	}
 
 	module.ModularMain(
